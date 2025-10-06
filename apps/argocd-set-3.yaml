@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: wave-apps
+  name: wave-apps-set-3
   namespace: argocd
 spec:
   generators:
