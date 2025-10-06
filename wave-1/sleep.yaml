@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wave-1-sleep
+  namespace: wave-test
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook: Sync
+spec:
+  template:
+    spec:
+      containers:
+        - name: sleep
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "echo 'Wave 1 complete, sleeping 15 seconds...'; sleep 15",
+            ]
+      restartPolicy: Never
+  backoffLimit: 0
