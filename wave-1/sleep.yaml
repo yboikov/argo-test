@@ -4,8 +4,9 @@ metadata:
   name: wave-1-sleep
   namespace: wave-test
   annotations:
+    argocd.argoproj.io/hook: Sync # ← Make it a hook
     argocd.argoproj.io/sync-wave: "1"
-    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:
     spec:
