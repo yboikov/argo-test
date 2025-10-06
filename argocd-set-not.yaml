@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: wave-apps
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: wave-1
+            wave: "1"
+            namespace: wave-app1
+          - name: wave-2
+            wave: "2"
+            namespace: wave-app2
+          - name: wave-3
+            wave: "3"
+            namespace: wave-app3
+  template:
+    metadata:
+      name: "{{name}}"
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{wave}}"
+        somekey: "test"
+      labels:
+        somelabel: deba
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/yboikov/argo-test.git
+        targetRevision: HEAD
+        path: "{{name}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
